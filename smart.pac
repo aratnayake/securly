@@ -1,4 +1,3 @@
-// CAUDE EDITED ADDED NWEA EXCEPTIONS
 // FID: "securly@ais.at"
 // USER: ""
 // Variables provided by PHP
