@@ -1,7 +1,7 @@
 // FID: "securly@ais.at"
 // USER: ""
 // Variables provided by PHP
-var cluster = "uk";    // Used to determine what DNS servers to access
+var cluster = "uk";    // Used to determine what DNS servers to accessa
 var api_endpoint = "uk.v1api.securly.com";
 var fid = "securly@ais.at";			  // Reserved for future use	
 var unifyid = false;
