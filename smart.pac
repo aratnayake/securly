@@ -1,5 +1,4 @@
-// ORIGINAL SECURLY COPIED 
-// V1-1
+// CAUDE EDITED ADDED NWEA EXCEPTIONS
 // FID: "securly@ais.at"
 // USER: ""
 // Variables provided by PHP
@@ -32,6 +31,7 @@ var now = 0;
 var securlydns = false;
 var pause = false;
 var kill_switch_exemption = false;
+
 function FindProxyForURL(url, host) {
 	now = new Date();
 	now = Math.floor(now.getTime() / 1000);
@@ -40,6 +40,71 @@ function FindProxyForURL(url, host) {
 		// Remove Trailing Dot
 		host = host.slice(0, -1);
 	}
+
+	// === NWEA TESTING DOMAINS - PRIORITY BYPASS - Direct access for secure testing ===
+	// These domains must bypass ALL filtering and proxy logic for educational testing
+	if (
+		// Core MAP Suite domains
+		dnsDomainIs(host, ".mapnwea.org") ||
+		dnsDomainIs(host, ".nwea.org") ||
+		host == "fonts.googleapis.com" ||
+		host == "gstatic.com" ||
+		host == "sso.mapnwea.org" ||
+		host == "teach.mapnwea.org" ||
+		host == "start.mapnwea.org" ||
+		host == "auth.nwea.org" ||
+		
+		// MAP Growth specific domains
+		host == "cdn.mapnwea.org" ||
+		host == "cdn.jsdelivr.net" ||
+		host == "item-presenter-lib.mapnwea.org" ||
+		host == "test.mapnwea.org" ||
+		host == "practice.mapnwea.org" ||
+		host == "studentresources.nwea.org" ||
+		dnsDomainIs(host, ".launchdarkly.com") ||
+		
+		// Text-to-Speech accommodation tools
+		dnsDomainIs(host, ".texthelp.com") ||
+		dnsDomainIs(host, ".speechstream.net") ||
+		
+		// MAP Reading Fluency domains
+		host == "readingfluency.mapnwea.org" ||
+		host == "readingfluency-cdn.mapnwea.org" ||
+		host == "student.mapnwea.org" ||
+		host == "lmapi.mapnwea.org" ||
+		dnsDomainIs(host, ".amiratutor.com") ||
+		host == "api.getmagicbox.com" ||
+		dnsDomainIs(host, ".googleapis.com") ||
+		host == "www.google-analytics.com" ||
+		dnsDomainIs(host, ".cloudfront.net") ||
+		dnsDomainIs(host, ".amazonaws.com") ||
+		dnsDomainIs(host, ".amira.services") ||
+		host == "sentry.io" ||
+		
+		// Training and documentation sites
+		host == "nwea.force.com" ||
+		host == "dpdol.nwea.org" ||
+		host == "legal.nwea.org" ||
+		host == "prolearning.nwea.org" ||
+		host == "prolearningonline.nwea.org" ||
+		host == "start.nwea.org" ||
+		host == "www.surveygizmo.com" ||
+		
+		// Monitoring and analytics
+		dnsDomainIs(host, ".browser-intake-datadoghq.com") ||
+		dnsDomainIs(host, ".datadoghq-browser-agent.com") ||
+		host == "newrelic.com"
+	) {
+		Debug("NWEA domain bypass: " + host);
+		return "DIRECT";
+	}
+	
+	// Special handling for WebSocket connections (MAP Reading Fluency speech)
+	if (url.substring(0, 6) === "wss://" && dnsDomainIs(host, ".amira.services")) {
+		Debug("NWEA WebSocket bypass: " + host);
+		return "DIRECT";
+	}
+	// === END NWEA EXCEPTIONS ===
 
 	// If FID is exemption for killswitch, below logic will be bypassed
 	if(kill_switch_exemption == false) {
