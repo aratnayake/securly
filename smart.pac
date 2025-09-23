@@ -294,7 +294,7 @@ function CheckApi(url, host) {
 }
 
 function Debug(string) {
-	var debug = "alert";
+	var debug = "none";
 
 	if (debug == "alert") {
 		alert("smart_pac: "+string);
