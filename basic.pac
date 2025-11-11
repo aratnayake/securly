@@ -6,7 +6,7 @@ function FindProxyForURL(url, host) {
     var cleanHost = host.replace(/^www\./, '');
     
     // Sites blocked by SMARTPAC TEST
-    var blockedSites = ["777.com", "888.com"];
+    var blockedSites = ["777.com", "888.com", "sentry.io"];
     
     // Check if the current host matches any blocked site
     for (var i = 0; i < blockedSites.length; i++) {
